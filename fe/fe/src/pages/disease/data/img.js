@@ -1,0 +1,7 @@
+export { default as CHD } from '../../../assets/png/CHD.jpg'
+export { default as HV } from '../../../assets/png/HV.png'
+export { default as HA } from '../../../assets/png/HA.png'
+export { default as HF } from '../../../assets/png/HF.jpg'
+export { default as HR } from '../../../assets/png/HR.jpg'
+export { default as HMD } from '../../../assets/png/HMD.jpg'
+export { default as IHR } from '../../../assets/png/IHR.jpg'

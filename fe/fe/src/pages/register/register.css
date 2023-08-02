@@ -1,0 +1,9 @@
+.err {
+    color: red;
+    font-size: 13px;
+    padding-left: 50px;
+}
+
+.form-label {
+    padding-left: 10px;
+}

@@ -1,0 +1,34 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-size: 20px;
+  color: #046380;
+  margin-top: 0px;
+  padding-left: 10px;
+}
+
+.nav-custom {
+  padding-left: 10px;
+}
+.nav-item-custom {
+  text-align: left;
+  height: 50px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+}
+.navlink-content {
+  margin-bottom: 0px;
+  font-size: 19px;
+  font-weight: 500;
+}

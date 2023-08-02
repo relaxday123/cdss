@@ -1,0 +1,26 @@
+.label {
+  margin-bottom: 1rem;
+  width: 100% !important;
+}
+
+.describe {
+  padding-left: 0.5rem;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.note {
+  /* padding-left: 0.5rem; */
+  /* width: 29rem; */
+  padding-bottom: 0.5rem;
+  font-size: 15px;
+  font-style: italic;
+  display: block;
+}
+
+.invalid-feedback {
+  padding-left: 13px !important;
+}
+
+.submit-btn {
+}

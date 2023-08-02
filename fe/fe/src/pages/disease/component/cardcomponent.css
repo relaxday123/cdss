@@ -1,0 +1,18 @@
+.custom-modal {
+    width: 80vw;    /* Occupy the 90% of the screen width */
+    max-width: 80vw;
+}
+
+.card-list {
+    padding-bottom: 1rem;
+}
+
+.accordion-button {
+    color: #003748;
+    font-weight: 700;
+}
+
+.accordion-body {
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
