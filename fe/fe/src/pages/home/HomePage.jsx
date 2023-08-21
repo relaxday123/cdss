@@ -6,7 +6,7 @@ import { Table, Popconfirm } from 'antd';
 import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import DetailModal from './component/DetailModel'
+import DetailModal from './component/DetailModal'
 import RecordService from '../../services/recordService';
 import { showErrorMessage, showSuccessMessage } from '../../util/toastdisplay';
 
@@ -48,26 +48,35 @@ function HomePage() {
     },
     {
       title: 'Operation',
-      dataIndex: 'operation',
       render: (_, record) =>
         data.length >= 1 ? (
           <div style={{ display: 'flex', justifyContent: 'space-evenly'}}>
             <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.id)}>
               <Button variant='danger'>Delete</Button>
             </Popconfirm>
-
-            <DetailModal data={record} show={show} setShow={setShow}/>
-            <Button variant='primary' onClick={handleShowModalDetail}>Detail</Button>
+            <Button variant='primary' onClick={() => handleShowModalDetail(record)}>Detail</Button>
+            <Button variant='primary' onClick={() => console.log(record)}>Log</Button>
           </div>
         ) : null,
       width: 250,
     },
   ];
 
-  const [show, setShow] = useState(false);
+  const [visibleRows, setVisibleRows] = useState({});
 
-  const handleShowModalDetail = () => setShow(true);
-  const handleCloseModalDetail = () => setShow(false);
+  const handleShowModalDetail = (record) => {
+    setVisibleRows((prevVisibleRows) => ({
+      ...prevVisibleRows,
+      [record.id]: true,
+    }));
+  };
+
+  const handleCloseModalDetail = (record) => {
+    setVisibleRows((prevVisibleRows) => ({
+      ...prevVisibleRows,
+      [record.id]: false,
+    }));
+  };
 
   const handleDelete = (id) => {
     RecordService.deleteRecord(id)
@@ -91,7 +100,7 @@ function HomePage() {
         no: index + 1,
         id: e.id,
         age: e.age,
-        sex: e.sex,
+        sex: e.sex.split('').map((char, index) =>index === 0 ? char.toUpperCase() : char).join(''),
         cp: e.cp,
         trestbps: e.trestbps,
         chol: e.chol,
@@ -115,7 +124,6 @@ function HomePage() {
     RecordService.getDefault()
       .then(response => {
         setDataList(response.data);
-        console.log(response.data);
       })
       .catch(() => {
         setData([]);
@@ -131,6 +139,15 @@ function HomePage() {
       <div style={{ width: '70%' }}>
         <Table columns={columns} dataSource={data} />
       </div>
+
+      {data.map((record) => (
+        <DetailModal
+          key={record.id}
+          data={record}
+          show={visibleRows[record.id] || false}
+          onClose={() => handleCloseModalDetail(record)}
+        />
+      ))}
     </>
   );
 }

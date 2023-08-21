@@ -7,6 +7,7 @@ export const ROLE = {
     { content: 'Home', route: '/' },
     { content: 'Prognosis', route: '/prognosis' },
     { content: 'Record History', route: '/record' },
+    { content: 'Chat', route: '/chat' },
   ];
   
   export const ADMIN_SIDEBAR = [

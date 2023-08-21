@@ -57,10 +57,10 @@ public class RecordMapper {
             dto.setRestecg(discretizeRestecg(record.getRestecg()));
             dto.setThalach(discretizeThalach(record.getThalach()));
             dto.setExang(discretizeExang(record.getExang()));
-            dto.setOldpeak(discretizeOldpeak(record.getOldpeak()));
+//            dto.setOldpeak(discretizeOldpeak(record.getOldpeak()));
             dto.setSlope(discretizeSlope(record.getSlope()));
-            dto.setCa(discretizeCa(record.getCa()));
-            dto.setThal(discretizeThal(record.getThal()));
+//            dto.setCa(discretizeCa(record.getCa()));
+//            dto.setThal(discretizeThal(record.getThal()));
             dto.setClassify(String.valueOf(record.getClassify()));
 
             return dto;
@@ -104,11 +104,11 @@ public class RecordMapper {
                         String.valueOf(data.getRestecg()),
                         String.valueOf(data.getThalach()),
                         String.valueOf(data.getExang()),
-                        String.valueOf(data.getOldpeak()),
-//                        String.valueOf(data.getSlope()),
-                        String.valueOf(data.getCa()),
+//                        String.valueOf(data.getOldpeak()),
+                        String.valueOf(data.getSlope())
+//                        String.valueOf(data.getCa()),
 //                        String.valueOf(data.getThal()),
-                        String.valueOf(data.getClassify())
+//                        String.valueOf(data.getClassify())
                 )
         );
     }
@@ -126,9 +126,9 @@ public class RecordMapper {
                         discretizeRestecg(record.getRestecg()),
                         discretizeThalach(record.getThalach()),
                         discretizeExang(record.getExang()),
-                        discretizeOldpeak(record.getOldpeak()),
-//                        discretizeSlope(record.getSlope()),
-                        discretizeCa(record.getCa())
+//                        discretizeOldpeak(record.getOldpeak()),
+                        discretizeSlope(record.getSlope())
+//                        discretizeCa(record.getCa())
 //                        discretizeThal(record.getThal())
                 )
         );
@@ -147,31 +147,31 @@ public class RecordMapper {
                         discretizeRestecg(record.getRestecg()),
                         discretizeThalach(record.getThalach()),
                         discretizeExang(record.getExang()),
-                        discretizeOldpeak(record.getOldpeak()),
-//                        discretizeSlope(record.getSlope()),
-                        discretizeCa(record.getCa())
+//                        discretizeOldpeak(record.getOldpeak()),
+                        discretizeSlope(record.getSlope())
+//                        discretizeCa(record.getCa())
 //                        discretizeThal(record.getThal())
                 )
         );
     }
 
-//    static String discretizeAge(int value) {
-//        if (value < 40) {
-//            return "A0";
-//        } else if (value < 60) {
-//            return "A1";
-//        } else {
-//            return "A2";
-//        }
-//    }
-
     static String discretizeAge(int value) {
-        if (value <= 54) {
+        if (value <= 40) {
             return "A0";
-        } else {
+        } else if (value < 60) {
             return "A1";
+        } else {
+            return "A2";
         }
     }
+
+//    static String discretizeAge(int value) {
+//        if (value <= 54) {
+//            return "A0";
+//        } else {
+//            return "A1";
+//        }
+//    }
 
     static String discretizeSex(String value) {
         if (value.equals("male")) {
@@ -191,41 +191,41 @@ public class RecordMapper {
         };
     }
 
-//    static String discretizeTrestbps(int value) {
-//        if (value < 120) {
-//            return "D0";
-//        } else if (value < 140) {
-//            return "D1";
-//        } else {
-//            return "D2";
-//        }
-//    }
-
     static String discretizeTrestbps(int value) {
-        if (value <= 130) {
+        if (value < 90) {
             return "D0";
-        } else {
+        } else if (value < 120) {
             return "D1";
+        } else {
+            return "D2";
         }
     }
 
-//    static String discretizeChol(int value) {
-//        if (value < 210) {
-//            return "E0";
-//        } else if (value < 250) {
-//            return "E1";
+//    static String discretizeTrestbps(int value) {
+//        if (value <= 130) {
+//            return "D0";
 //        } else {
-//            return "E2";
+//            return "D1";
 //        }
 //    }
 
     static String discretizeChol(int value) {
-        if (value <= 230) {
+        if (value < 190) {
             return "E0";
-        } else {
+        } else if (value < 240) {
             return "E1";
+        } else {
+            return "E2";
         }
     }
+
+//    static String discretizeChol(int value) {
+//        if (value <= 230) {
+//            return "E0";
+//        } else {
+//            return "E1";
+//        }
+//    }
 
     static String discretizeFbs(String value) {
         if (value.equals("true")) {
@@ -245,12 +245,22 @@ public class RecordMapper {
     }
 
     static String discretizeThalach(int value) {
-        if (value <= 145) {
+        if (value < 110) {
             return "H0";
-        } else {
+        } else if (value < 150) {
             return "H1";
+        } else {
+            return "H2";
         }
     }
+
+//    static String discretizeThalach(int value) {
+//        if (value <= 140) {
+//            return "H0";
+//        } else {
+//            return "H1";
+//        }
+//    }
 
     static String discretizeExang(String value) {
         if (value.equals("true")) {
@@ -261,8 +271,8 @@ public class RecordMapper {
     }
 
     static String discretizeOldpeak(double value) {
-        if (value <= 0.7) {
-            return "J0";    
+        if (value <= 0.8) {
+            return "J0";
         } else {
             return "J1";
         }

@@ -2,3 +2,7 @@
     width: 98vw;    /* Occupy the 90% of the screen width */
     max-width: 98vw;
 }
+
+.ant-descriptions-item-label {
+    font-weight: 700 !important;
+}

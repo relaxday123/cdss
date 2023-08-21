@@ -15,6 +15,7 @@ import HomePage from './pages/home/HomePage';
 import PrognosisPage from './pages/prognosis/PrognosisPage';
 import RegisterPage from './pages/register/RegisterPage';
 import DiseasePage from './pages/disease/DiseasePage';
+import ChatPage from './pages/websocket/ChatPage';
 
 function App() {
 
@@ -91,24 +92,17 @@ function App() {
               /></Route>
           </Route>
 
-          <Route path="asset">
-            <Route
-              index
-              element={
-                <Layout title="Manage Asset">
-                  {/* <ManageAsset /> */}
-                </Layout>
-              }
-            ></Route>
-            <Route
-              path="create"
-              element={
-                <Layout title="Manage Asset > Create Asset">
-                  {/* <CreateAsset /> */}
-                </Layout>
-              }
-            ></Route>
-            <Route path="edit"></Route>
+          <Route path="chat">
+            <Route element={<RequireAuth allowedRoles={[ROLE.PATIENT]}></RequireAuth>}>
+              <Route
+                index
+                element={
+                  <Layout title="Chat">
+                    <ChatPage />
+                  </Layout>
+                }
+              />
+            </Route>
           </Route>
 
           <Route path="assignment">

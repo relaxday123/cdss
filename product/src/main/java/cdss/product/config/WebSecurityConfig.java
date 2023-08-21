@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                    .antMatchers("/apriori/**","/api/auth/**","/login/**","/users").permitAll()
+                    .antMatchers("/apriori/**","/api/auth/**","/login/**","/users","/ws/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()

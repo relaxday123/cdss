@@ -56,6 +56,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 	.collect(Collectors.toList());
     body.put("errors", errors);
     logger.warn(errors.toString());
+
     return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
   }
 
@@ -66,11 +67,11 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 	userException.getCodeResponse().getStatus());
   }
 
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity globalExceptionHandler(Exception ex, WebRequest request) {
-    logger.error(""+ex);
-    return new ResponseEntity<>("Error: " + ex, HttpStatus.BAD_REQUEST);
-  }
+//  @ExceptionHandler(Exception.class)
+//  public ResponseEntity globalExceptionHandler(Exception ex, WebRequest request) {
+//    logger.error(""+ex);
+//    return new ResponseEntity<>("Error: " + ex, HttpStatus.BAD_REQUEST);
+//  }
 
   @ExceptionHandler(IllegalArgumentException.class)
   public ResponseEntity illegalArgumentExceptionHandler(IllegalArgumentException ex, WebRequest request) {
@@ -81,7 +82,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(ExpiredJwtException.class)
   public ResponseEntity expiredJwtExceptionHandler(ExpiredJwtException ex, WebRequest request) {
     logger.error(ex.getMessage());
-    return new ResponseEntity<>("Error: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>("Error: " + ex.getMessage(), HttpStatus.UNAUTHORIZED);
   }
 
 //  @ExceptionHandler(AssetException.class)

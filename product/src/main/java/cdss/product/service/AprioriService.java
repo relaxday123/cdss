@@ -144,8 +144,9 @@ public class AprioriService {
 
         // Step 5: Apply Filtering
         double threshold = 0.5;
-//        List<Rule> matchingRules = new ArrayList<>();
         Map<Rule, Double> ruleMatchingPercentageMap = new HashMap<>();
+
+        // filter rules that have larger matching threshold
         for (Rule rule : rules) {
             String ant = rule.getAntecedent();
             String[] antecedent = ant.split(", ");
@@ -193,6 +194,7 @@ public class AprioriService {
             }
         });
 
+        // Only get rules that have most match percentage and sort by antecedent length
         List<Map.Entry<Rule, Double>> filterMostMatchPercentage = sortedMatchingRules
                 .stream().filter(map -> map.getValue().equals(sortedMatchingRules.get(0).getValue()))
                 .sorted(new Comparator<Map.Entry<Rule, Double>>() {
