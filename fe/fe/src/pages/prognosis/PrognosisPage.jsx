@@ -335,10 +335,10 @@ function PrognosisPage() {
   const [isButtonClicked, setButtonClicked] = useState(false);
 
   function compare(a, b) {
-    if (a.confidence < b.confidence) {
+    if (a.confidence + a.support < b.confidence + b.support) {
       return 1;
     }
-    if (a.confidence > b.confidence) {
+    if (a.confidence + a.support > b.confidence + b.support) {
       return -1;
     }
     return 0;
@@ -682,7 +682,7 @@ function PrognosisPage() {
                       <div style={{ display: "flex", flexDirection: "column" }}>
                         {calResult
                           .filter((result) => result.consequent === "buff")
-                          // .sort(compare)
+                          .sort(compare)
                           .map((result) => {
                             return (
                               <ul key={result.id}>
@@ -693,6 +693,9 @@ function PrognosisPage() {
                                 <li>
                                   confidence: {result.confidence.toFixed(2)}
                                 </li>
+                                <li>
+                                  total: {result.confidence.toFixed(2) + result.support.toFixed(2)}
+                                </li>
                               </ul>
                             );
                           })}
@@ -701,7 +704,7 @@ function PrognosisPage() {
                       <div style={{ display: "flex", flexDirection: "column" }}>
                         {calResult
                           .filter((result) => result.consequent === "sick")
-                          // .sort(compare)
+                          .sort(compare)
                           .map((result) => {
                             return (
                               <ul key={result.id}>
@@ -711,6 +714,9 @@ function PrognosisPage() {
                                 <li>support: {result.support.toFixed(2)}</li>
                                 <li>
                                   confidence: {result.confidence.toFixed(2)}
+                                </li>
+                                <li>
+                                  total: {result.confidence.toFixed(2) + result.support.toFixed(2)}
                                 </li>
                               </ul>
                             );
