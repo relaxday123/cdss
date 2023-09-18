@@ -132,6 +132,8 @@ function PrognosisPage() {
 
   const [calResult, setCalResult] = useState([]);
 
+  const [conclusion, setConclusion] = useState("");
+
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
@@ -292,19 +294,43 @@ function PrognosisPage() {
       });
   };
 
+  const calConclusion = () => {
+    const buff = calResult.filter((result) => result.consequent == "buff");
+    const sick = calResult.filter((result) => result.consequent == "sick");
+
+    if (buff.length == 0 && sick.length == 0) {
+      setConclusion("");
+    } else if (buff.length == 0) {
+      setConclusion("The patient is " + "likely".toUpperCase() +  " to have heart disease");
+    } else if (sick.length == 0) {
+      setConclusion("The patient is " + "unlikely".toUpperCase() +  " to have heart disease");
+    } else if (
+      sick.sort(compare).at(0).support + sick.sort(compare).at(0).confidence >
+      buff.sort(compare).at(0).support + buff.sort(compare).at(0).confidence
+    ) {
+      setConclusion("The patient is " + "likely".toUpperCase() +  " to have heart disease");
+    } else {
+      setConclusion("The patient is " + "unlikely".toUpperCase() +  " to have heart disease");
+    }
+  };
+
   const calculateRecord = (data) => {
     RecordService.calculateRecord(data)
       .then((response) => {
         showSuccessMessage("Calculate successfully!");
-        console.log(response.data);
+        // console.log(response.data);
         setCalResult(response.data);
-        console.log(values);
+        // console.log(values);
         // setShow(true);
       })
       .catch((error) => {
         showErrorMessage("Error: " + error.response.data);
       });
   };
+
+  useEffect(() => {
+    calConclusion();
+  }, [calResult]);
 
   const formValid =
     !errors.age &&
@@ -315,9 +341,9 @@ function PrognosisPage() {
     !errors.fbs &&
     !errors.restecg &&
     !errors.thalach &&
-    !errors.exang
-    //  && !errors.oldpeak && !errors.slope
-    // && !errors.ca;
+    !errors.exang;
+  //  && !errors.oldpeak && !errors.slope
+  // && !errors.ca;
 
   const calValid =
     values.age != "" &&
@@ -328,9 +354,9 @@ function PrognosisPage() {
     values.fbs != "" &&
     values.restecg != "" &&
     values.thalach != "" &&
-    values.exang != ""
-    //  && values.oldpeak != '' && values.slope != ''
-    // && values.ca != "";
+    values.exang != "";
+  //  && values.oldpeak != '' && values.slope != ''
+  // && values.ca != "";
 
   const [isButtonClicked, setButtonClicked] = useState(false);
 
@@ -576,13 +602,18 @@ function PrognosisPage() {
               </Form.Group> */}
 
               <Form.Group as={Col} controlId="formGridPassword">
-                <Form.Label className='label'>Slope exercise ST segment</Form.Label>
-                <Form.Select defaultValue="" name="slope"
+                <Form.Label className="label">
+                  Slope exercise ST segment
+                </Form.Label>
+                <Form.Select
+                  defaultValue=""
+                  name="slope"
                   value={values.slope}
                   onBlur={handleBlur}
                   isInvalid={touched.slope && errors.slope}
                   onChange={handleChange}
-                  required>
+                  required
+                >
                   <option value={""}></option>
                   <option value={"up"}>Upsloping</option>
                   <option value={"flat"}>Flat</option>
@@ -664,66 +695,83 @@ function PrognosisPage() {
                 as={Col}
                 controlId="formGridPassword"
                 xs={8}
-                style={{ display: "flex", justifyContent: "flex-end" }}
+                style={{ display: "flex", justifyContent: "space-around" }}
               >
                 {/* {calResult ? (
                   ""
                 ) : ( */}
-                  <Alert style={{ width: "100%" }} variant="success">
-                    <Alert.Heading>Result</Alert.Heading>
-                    <hr />
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-around",
-                      }}
-                    >
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        {calResult
-                          .filter((result) => result.consequent === "buff")
-                          .sort(compare)
-                          .map((result) => {
-                            return (
-                              <ul key={result.id}>
-                                <li>{result.consequent}</li>
-                                <li>{result.id}</li>
-                                <li>{result.antecedent}</li>
-                                <li>support: {result.support.toFixed(2)}</li>
-                                <li>
-                                  confidence: {result.confidence.toFixed(2)}
-                                </li>
-                                <li>
-                                  total: {result.confidence.toFixed(2) + result.support.toFixed(2)}
-                                </li>
-                              </ul>
-                            );
-                          })}
-                      </div>
-
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        {calResult
-                          .filter((result) => result.consequent === "sick")
-                          .sort(compare)
-                          .map((result) => {
-                            return (
-                              <ul key={result.id}>
-                                <li>{result.consequent}</li>
-                                <li>{result.id}</li>
-                                <li>{result.antecedent}</li>
-                                <li>support: {result.support.toFixed(2)}</li>
-                                <li>
-                                  confidence: {result.confidence.toFixed(2)}
-                                </li>
-                                <li>
-                                  total: {result.confidence.toFixed(2) + result.support.toFixed(2)}
-                                </li>
-                              </ul>
-                            );
-                          })}
-                      </div>
+                <Alert style={{ width: "50%" }} variant="success">
+                  <Alert.Heading>Result</Alert.Heading>
+                  <hr />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      {calResult
+                        .filter((result) => result.consequent === "buff")
+                        .sort(compare)
+                        .map((result) => {
+                          return (
+                            <ul key={result.id}>
+                              <li>{result.consequent}</li>
+                              <li>{result.id}</li>
+                              <li>{result.antecedent}</li>
+                              <li>support: {result.support.toFixed(2)}</li>
+                              <li>
+                                confidence: {result.confidence.toFixed(2)}
+                              </li>
+                              <li>
+                                total:{" "}
+                                {(
+                                  parseFloat(result.confidence.toFixed(2)) +
+                                  parseFloat(result.support.toFixed(2))
+                                ).toFixed(2)}
+                              </li>
+                            </ul>
+                          );
+                        })}
                     </div>
-                  </Alert>
+
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      {calResult
+                        .filter((result) => result.consequent === "sick")
+                        .sort(compare)
+                        .map((result) => {
+                          return (
+                            <ul key={result.id}>
+                              <li>{result.consequent}</li>
+                              <li>{result.id}</li>
+                              <li>{result.antecedent}</li>
+                              <li>support: {result.support.toFixed(2)}</li>
+                              <li>
+                                confidence: {result.confidence.toFixed(2)}
+                              </li>
+                              <li>
+                                total:{" "}
+                                {(
+                                  parseFloat(result.confidence.toFixed(2)) +
+                                  parseFloat(result.support.toFixed(2))
+                                ).toFixed(2)}
+                              </li>
+                            </ul>
+                          );
+                        })}
+                    </div>
+                  </div>
+                </Alert>
+
+                <Alert
+                  style={{ width: "45%", height: "fit-content" }}
+                  variant="success"
+                >
+                  <Alert.Heading>Conclusion</Alert.Heading>
+                  <hr />
+                  <div>{conclusion}</div>
+                </Alert>
                 {/* )} */}
               </Form.Group>
             </Row>
