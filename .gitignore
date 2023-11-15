@@ -1,2 +1,8 @@
 
 product/src/main/resources/application-dev.properties
+
+.env
+
+db.sql
+fe/fe/.env
+*.properties
