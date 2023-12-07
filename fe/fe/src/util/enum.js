@@ -1,21 +1,19 @@
 export const ROLE = {
-    ADMIN: 'ADMIN',
-    PATIENT: 'PATIENT',
-  };
-  
-  export const STAFF_SIDEBAR = [
-    { content: 'Home', route: '/' },
-    { content: 'Prognosis', route: '/prognosis' },
-    { content: 'Record History', route: '/record' },
-    { content: 'Chat', route: '/chat' },
-  ];
-  
-  export const ADMIN_SIDEBAR = [
-    { content: 'Home', route: '/' },
-    { content: 'Manage User', route: '/user' },
-    { content: 'Manage Asset', route: '/asset' },
-    { content: 'Manage Assignment', route: '/assignment' },
-    { content: 'Request for Returning', route: '/RequestForReturning' },
-    { content: 'Report', route: '/report' },
-  ];
-  
+  STAFF: "STAFF",
+  PATIENT: "PATIENT",
+};
+
+export const STAFF_SIDEBAR = [
+  { content: "Home", route: "/" },
+  { content: "Record History", route: "/record" },
+  { content: "Contact", route: "/contact" },
+  // { content: 'Chat', route: '/chat' },
+];
+
+export const PATIENT_SIDEBAR = [
+  { content: "Home", route: "/" },
+  { content: "Prognosis", route: "/prognosis" },
+  { content: "Record History", route: "/record" },
+  { content: "Contact", route: "/contact" },
+  // { content: "Report", route: "/report" },
+];

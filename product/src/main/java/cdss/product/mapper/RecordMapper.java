@@ -36,7 +36,6 @@ public class RecordMapper {
 
     public Record convertToEntity(RecordDTO dto) {
         try {
-
             return modelMapper.map(dto, Record.class);
         }
         catch (Exception ex) {

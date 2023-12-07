@@ -1,14 +1,14 @@
-import instance from '../httpClient/axiosInstance';
-import AuthHeaders from './AuthHeader';
+import instance from "../httpClient/axiosInstance";
+import AuthHeaders from "./AuthHeader";
 
-const patientGetList = () => {
-  return instance.get('/records', {
+const postContact = (data) => {
+  return instance.post("/contact", data, {
     headers: AuthHeaders(),
   });
 };
 
-const staffGetList = () => {
-  return instance.get('/records/all', {
+const staffGetContactList = () => {
+  return instance.get("/contact", {
     headers: AuthHeaders(),
   });
 };
@@ -18,7 +18,6 @@ const getByID = (id) => {
     headers: AuthHeaders(),
   });
 };
-
 
 // const getListBySearchKey = data => {
 //   return instance.post('/assignments/search', data, {
@@ -32,37 +31,37 @@ const getByID = (id) => {
 //   });
 // };
 
-const submitRecord = data => {
+const submitRecord = (data) => {
   return instance.post(`/records`, data, {
     headers: AuthHeaders(),
   });
 };
 
-const editRecord = data => {
+const editRecord = (data) => {
   return instance.put(`/records`, data, {
     headers: AuthHeaders(),
   });
 };
 
-const calculateRecord = data => {
+const calculateRecord = (data) => {
   return instance.post(`/apriori/run`, data, {
     headers: AuthHeaders(),
   });
 };
 
-const deleteRecord = id => {
+const deleteRecord = (id) => {
   return instance.delete(`/records/${id}`, { headers: AuthHeaders() });
 };
 
-const RecordService = {
-  patientGetList,
-  staffGetList,
+const ContactService = {
+  postContact,
+  staffGetContactList,
   getByID,
   editRecord,
-//   getListBySearchKey,
+  //   getListBySearchKey,
   submitRecord,
   deleteRecord,
   calculateRecord,
 };
 
-export default RecordService;
+export default ContactService;

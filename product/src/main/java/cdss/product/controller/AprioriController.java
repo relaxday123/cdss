@@ -24,13 +24,13 @@ public class AprioriController {
     private AprioriService aprioriService;
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('PATIENT')")
+    @PreAuthorize("hasAnyAuthority('PATIENT', 'STAFF')")
     ResponseEntity<List<Rule>> matchingRules(@PathVariable("id") Long id) {
         return new ResponseEntity<List<Rule>>(aprioriService.matchingRules(id), HttpStatus.OK);
     }
 
     @PostMapping("/run")
-    @PreAuthorize("hasAuthority('PATIENT')")
+    @PreAuthorize("hasAnyAuthority('PATIENT', 'STAFF')")
     ResponseEntity<List<Rule>> calculateRecord(@Valid @RequestBody RecordDTO record) {
         return new ResponseEntity<List<Rule>>(aprioriService.matchingRules(record), HttpStatus.OK);
     }

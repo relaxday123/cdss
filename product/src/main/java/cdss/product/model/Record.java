@@ -52,17 +52,8 @@ public class Record {
     @Column(name = "exang")
     private String exang;
 
-    @Column(name = "oldpeak")
-    private double oldpeak;
-
     @Column(name = "slope")
     private String slope;
-
-    @Column(name = "ca")
-    private Integer ca;
-
-    @Column(name = "thal")
-    private String thal;
 
     @Column(name = "classify")
     private String classify;
@@ -81,6 +72,12 @@ public class Record {
 
     @Column(name = "percentage")
     private String percentage;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "conclusion")
+    private String conclusion;
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false, referencedColumnName = "user_id")

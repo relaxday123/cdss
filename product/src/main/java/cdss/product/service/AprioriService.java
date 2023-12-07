@@ -32,6 +32,9 @@ public class AprioriService {
     private RuleRepository ruleRepository;
 
     @Autowired
+    private Map<String, String> labelMap;
+
+    @Autowired
     private RecordMapper recordMapper;
 
     public List<Rule> matchingRules(Long id) {
@@ -131,7 +134,7 @@ public class AprioriService {
 //        matchingRules.sort(Comparator.comparing(Rule::getConfidence).reversed()
 //                .thenComparing(Comparator.comparing(Rule::getSupport).reversed()));
 
-        return matchingRules;
+        return mappingLabel(matchingRules);
     }
 
     public List<Rule> matchingRules(RecordDTO record) {
@@ -211,27 +214,13 @@ public class AprioriService {
                 })
                 .collect(Collectors.toList());
 
-//        List<Rule> matchingRules = new ArrayList<>();
-//        for (Map.Entry<Rule, Double> entry : ruleMatchingPercentageMap.entrySet()) {
-//            Rule rule = entry.getKey();
-//            double matchingPercentage = entry.getValue();
-//
-//            if (matchingPercentage >= threshold) {
-//                matchingRules.add(rule);
-//            }
-//        }
-
         List<Rule> matchingRules = new ArrayList<>();
         for (Map.Entry<Rule, Double> entry : filterMostMatchPercentage) {
             Rule rule = entry.getKey();
             matchingRules.add(rule);
         }
 
-        // Step 6: Rank the Rules
-//        matchingRules.sort(Comparator.comparing(Rule::getConfidence).reversed()
-//                .thenComparing(Comparator.comparing(Rule::getSupport).reversed()));
-
-        return matchingRules;
+        return mappingLabel(matchingRules);
     }
 
     public String preprocessingData() {
@@ -286,5 +275,24 @@ public class AprioriService {
 
     public List<Record> get() {
         return recordRepository.findByAgeLessThanOrderByAgeDesc("50");
+    }
+
+    public List<Rule> mappingLabel(List<Rule> rules) {
+        for (Rule rule : rules) {
+            String[] labels = rule.getAntecedent().split(", ");
+
+            StringBuffer result = new StringBuffer();
+            for (String label : labels) {
+                result.append(labelMap.get(label) + ", ");
+            }
+
+            if (result.length() > 2) {
+                result.setLength(result.length() - 2);
+            }
+
+            rule.setAntecedent(result.toString());
+        }
+
+        return rules;
     }
 }

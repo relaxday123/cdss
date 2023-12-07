@@ -2,7 +2,7 @@
 import Navbar from '../components/navbar/Navbar';
 import Sidebar from '../components/sidebar/Sidebar';
 import useAuth from '../hooks/useAuth';
-import { ADMIN_SIDEBAR, ROLE, STAFF_SIDEBAR } from '../util/enum';
+import { PATIENT_SIDEBAR, ROLE, STAFF_SIDEBAR } from '../util/enum';
 import './layout.css';
 
 function Layout({ title, children }) {
@@ -15,7 +15,7 @@ function Layout({ title, children }) {
     <section>
       <Navbar title={title} username={username} />
       <div className="page-wrapper">
-        <Sidebar renderContent={role === ROLE.ADMIN ? ADMIN_SIDEBAR : STAFF_SIDEBAR} />
+        <Sidebar renderContent={role === ROLE.STAFF ? STAFF_SIDEBAR : PATIENT_SIDEBAR} />
 
         <div
           style={{
