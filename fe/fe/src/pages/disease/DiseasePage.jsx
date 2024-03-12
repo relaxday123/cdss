@@ -22,20 +22,6 @@ function DiseasePage() {
 
   const [data, setData] = useState([]);
 
-  // const requests = urls.map((url) => axios.get(url));
-
-  // const fetchdata = () => {
-  //   axios.all(requests)
-  //     .then((responses) => {
-  //       responses.forEach((resp) => {
-  //         setData(current => [...current, resp.data]);
-  //       });
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // };
-
   useEffect(() => {
     setData([
       {
@@ -116,7 +102,6 @@ function DiseasePage() {
         img: IHR,
       },
     ]);
-    // fetchdata();
   }, [])
 
   return (

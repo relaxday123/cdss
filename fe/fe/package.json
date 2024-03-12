@@ -18,6 +18,8 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.3.0",
     "dateformat": "^5.0.3",
+    "dotenv": "^16.3.1",
+    "env-cmd": "^10.1.0",
     "formik": "^2.4.2",
     "fortawesome": "^0.0.1-security",
     "jwt-decode": "^3.1.2",
@@ -36,11 +38,13 @@
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.0.0",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.38.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
-    "vite": "^4.3.9"
+    "vite": "^4.3.9",
+    "react-error-overlay": "6.0.9"
   },
   "eslintConfig": {
     "rules": {

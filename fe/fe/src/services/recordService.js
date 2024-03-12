@@ -50,6 +50,12 @@ const calculateRecord = data => {
   });
 };
 
+const diagnoseRecord = id => {
+  return instance.post(`/diagnose/${id}`, {
+    headers: AuthHeaders(),
+  });
+};
+
 const deleteRecord = id => {
   return instance.delete(`/records/${id}`, { headers: AuthHeaders() });
 };
@@ -63,6 +69,7 @@ const RecordService = {
   submitRecord,
   deleteRecord,
   calculateRecord,
+  diagnoseRecord,
 };
 
 export default RecordService;
