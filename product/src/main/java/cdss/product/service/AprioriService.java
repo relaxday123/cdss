@@ -1,8 +1,10 @@
 package cdss.product.service;
 
 import cdss.product.algo.Apriori;
+import cdss.product.dto.DiagnoseDTO;
 import cdss.product.dto.PreproDataDTO;
 import cdss.product.dto.RecordDTO;
+import cdss.product.exception.RecordException;
 import cdss.product.mapper.RecordMapper;
 import cdss.product.model.PreproData;
 import cdss.product.model.Record;
@@ -282,6 +284,18 @@ public class AprioriService {
         Map<Set<String>, Map<Set<String>, Double>> confidences = apriori.calculateConfidence(frequentItemsets, minConf);
 
         return confidences;
+    }
+
+    public DiagnoseDTO diagnoseRecord(Long id) {
+        Optional<Record> record = recordRepository.findRecordById(id);
+        if (!record.isPresent()) {
+            throw new RecordException(RecordException.RECORD_NOT_FOUND);
+        }
+        List<Rule> rules = matchingRules(recordMapper.convertToDto(record.get()));
+        DiagnoseDTO diagnoseDTO = recordMapper.convertToDiagnose(recordMapper.convertToDto(record.get()));
+        diagnoseDTO.setRules(rules);
+
+        return diagnoseDTO;
     }
 
     public List<Record> get() {

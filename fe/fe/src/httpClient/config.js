@@ -1,5 +1,5 @@
 export const CONFIG = {
-  baseUrl: "http://localhost:8080/",
+  baseUrl: import.meta.env.VITE_API_KEY,
   headers: {
     'Content-Type': 'application/json',
   },

@@ -1,21 +1,21 @@
 package cdss.product.dto;
 
+import cdss.product.model.Rule;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Getter
 @Setter
-public class RecordDTO implements Serializable {
-
+public class DiagnoseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
@@ -61,4 +61,6 @@ public class RecordDTO implements Serializable {
     private LocalDate date;
 
     private String classify;
+
+    private List<Rule> rules;
 }

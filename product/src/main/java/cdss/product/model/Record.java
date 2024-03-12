@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
@@ -19,7 +20,10 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "records")
-public class Record {
+public class Record implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -75,12 +79,6 @@ public class Record {
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;
-
-    @Column(name = "prediction")
-    private String prediction;
-
-    @Column(name = "percentage")
-    private String percentage;
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false, referencedColumnName = "user_id")
