@@ -56,17 +56,8 @@ public class Record implements Serializable {
     @Column(name = "exang")
     private String exang;
 
-    @Column(name = "oldpeak")
-    private double oldpeak;
-
     @Column(name = "slope")
     private String slope;
-
-    @Column(name = "ca")
-    private Integer ca;
-
-    @Column(name = "thal")
-    private String thal;
 
     @Column(name = "classify")
     private String classify;
@@ -79,7 +70,19 @@ public class Record implements Serializable {
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;
+  
+    @Column(name = "prediction")
+    private String prediction;
 
+    @Column(name = "percentage")
+    private String percentage;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "conclusion")
+    private String conclusion;
+  
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false, referencedColumnName = "user_id")
     private User user;

@@ -1,5 +1,6 @@
 package cdss.product.dto;
 
+import cdss.product.model.User;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -61,4 +62,10 @@ public class RecordDTO implements Serializable {
     private LocalDate date;
 
     private String classify;
+
+    private String description;
+
+    private String conclusion;
+
+    private User user;
 }

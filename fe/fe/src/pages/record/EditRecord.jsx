@@ -1,22 +1,16 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-import { showErrorMessage, showSuccessMessage } from "../../util/toastdisplay";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./prognosispage.css";
+import { useNavigate, useParams } from "react-router-dom";
 import RecordService from "../../services/recordService";
-import ResultModal from "./component/ResultModal";
+import { showErrorMessage, showSuccessMessage } from "../../util/toastdisplay";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import ResultModal from "../prognosis/component/ResultModal";
 
-function PrognosisPage() {
+const EditRecord = () => {
   let navigate = useNavigate();
-  const { user } = useAuth();
+  const params = useParams();
+  const recordId = params.recordId;
 
-  const [values, setValues] = useState({
+  const initialRecordState = {
     age: "",
     sex: "",
     cp: "",
@@ -30,7 +24,27 @@ function PrognosisPage() {
     slope: "",
     ca: "",
     thal: "",
-  });
+    description: "",
+    conclusion: "",
+  };
+
+  const [newRecord, setNewRecord] = useState(initialRecordState);
+
+  useEffect(() => {
+    if (recordId) {
+      RecordService.getByID(recordId)
+        .then((response) => {
+          setNewRecord(response.data);
+        })
+        .catch((e) => {
+          showErrorMessage("Error: " + e.response.data);
+          //   setTimeout(() => {
+          //     navigate("/record");
+          //   }, 3000);
+          console.error(e.response.data);
+        });
+    }
+  }, [recordId]);
 
   const [touched, setTouched] = useState({
     age: false,
@@ -67,7 +81,7 @@ function PrognosisPage() {
   const [calResult, setCalResult] = useState([]);
 
   const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    setNewRecord({ ...newRecord, [e.target.name]: e.target.value });
   };
 
   const handleBlur = (e) => {
@@ -171,7 +185,7 @@ function PrognosisPage() {
       setButtonClicked(false);
       validate(e);
     } else {
-      submitRecord(values);
+      submitRecord(newRecord);
     }
   };
 
@@ -183,16 +197,16 @@ function PrognosisPage() {
       e.stopPropagation();
       validate(e);
     } else {
-      calculateRecord(values);
+      calculateRecord(newRecord);
     }
   };
 
-  const [validated, setValidated] = useState(false);
+  const [validated] = useState(false);
 
   const submitRecord = (data) => {
-    RecordService.submitRecord(data)
-      .then((response) => {
-        showSuccessMessage("Submit record successfully!");
+    RecordService.editRecord(data)
+      .then(() => {
+        showSuccessMessage("Edit record successfully!");
         setTimeout(() => {
           navigate("/");
           setButtonClicked(false);
@@ -212,7 +226,7 @@ function PrognosisPage() {
         // console.log(response.data);
         setCalResult(response.data);
         setShowResultModal(true);
-        // console.log(values);
+        // console.log(newRecord);
         // setShow(true);
       })
       .catch((error) => {
@@ -232,15 +246,15 @@ function PrognosisPage() {
     !errors.exang;
 
   const calValid =
-    values.age != "" &&
-    values.sex != "" &&
-    values.cp != "" &&
-    values.trestbps != "" &&
-    values.chol != "" &&
-    values.fbs != "" &&
-    values.restecg != "" &&
-    values.thalach != "" &&
-    values.exang != "";
+    newRecord.age != "" &&
+    newRecord.sex != "" &&
+    newRecord.cp != "" &&
+    newRecord.trestbps != "" &&
+    newRecord.chol != "" &&
+    newRecord.fbs != "" &&
+    newRecord.restecg != "" &&
+    newRecord.thalach != "" &&
+    newRecord.exang != "";
 
   const [isButtonClicked, setButtonClicked] = useState(false);
 
@@ -259,11 +273,6 @@ function PrognosisPage() {
         </p>
         <div style={{ paddingLeft: "6rem" }}>
           <Form validated={validated} onSubmit={handleFormSubmit}>
-            <Form.Text className="note" muted>
-              Our system evaluates based on the records that have been
-              collected, and your profile will contribute to future prediction
-              results.
-            </Form.Text>
             <Row className="mb-2">
               <Form.Group as={Col} controlId="formGridEmail">
                 <Form.Label className="label">Age</Form.Label>
@@ -271,7 +280,7 @@ function PrognosisPage() {
                   type="number"
                   placeholder="Enter age"
                   name="age"
-                  value={values.age}
+                  value={newRecord.age}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   isInvalid={touched.age && errors.age}
@@ -290,7 +299,7 @@ function PrognosisPage() {
                 <Form.Select
                   defaultValue=""
                   name="sex"
-                  value={values.sex}
+                  value={newRecord.sex}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   isInvalid={touched.sex && errors.sex}
@@ -310,7 +319,7 @@ function PrognosisPage() {
                 <Form.Select
                   defaultValue=""
                   name="cp"
-                  value={values.cp}
+                  value={newRecord.cp}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   isInvalid={touched.cp && errors.cp}
@@ -337,7 +346,7 @@ function PrognosisPage() {
                   type="number"
                   placeholder="Enter resting blood pressure"
                   name="trestbps"
-                  value={values.trestbps}
+                  value={newRecord.trestbps}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   isInvalid={touched.trestbps && errors.trestbps}
@@ -357,7 +366,7 @@ function PrognosisPage() {
                   type="number"
                   placeholder="Enter cholesteral"
                   name="chol"
-                  value={values.chol}
+                  value={newRecord.chol}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   isInvalid={touched.chol && errors.chol}
@@ -378,7 +387,7 @@ function PrognosisPage() {
                 <Form.Select
                   defaultValue=""
                   name="fbs"
-                  value={values.fbs}
+                  value={newRecord.fbs}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   isInvalid={touched.fbs && errors.fbs}
@@ -402,7 +411,7 @@ function PrognosisPage() {
                 <Form.Select
                   defaultValue=""
                   name="restecg"
-                  value={values.restecg}
+                  value={newRecord.restecg}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   isInvalid={touched.restecg && errors.restecg}
@@ -424,7 +433,7 @@ function PrognosisPage() {
                   type="number"
                   placeholder="Enter max heart rate"
                   name="thalach"
-                  value={values.thalach}
+                  value={newRecord.thalach}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   isInvalid={touched.thalach && errors.thalach}
@@ -445,7 +454,7 @@ function PrognosisPage() {
                 <Form.Select
                   defaultValue=""
                   name="exang"
-                  value={values.exang}
+                  value={newRecord.exang}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   isInvalid={touched.exang && errors.exang}
@@ -462,19 +471,6 @@ function PrognosisPage() {
             </Row>
 
             <Row className="mb-3">
-              {/* <Form.Group as={Col} controlId="formGridPassword">
-                <Form.Label className='label'>Oldpeak</Form.Label>
-                <Form.Control type="number" placeholder="Enter oldpeak" name="oldpeak"
-                  value={values.oldpeak}
-                  onBlur={handleBlur}
-                  isInvalid={touched.oldpeak && errors.oldpeak}
-                  onChange={handleChange}
-                  required />
-                <Form.Control.Feedback type="invalid">
-                  {errors.oldpeak}
-                </Form.Control.Feedback>
-              </Form.Group> */}
-
               <Form.Group as={Col} controlId="formGridPassword">
                 <Form.Label className="label">
                   Slope exercise ST segment
@@ -482,7 +478,7 @@ function PrognosisPage() {
                 <Form.Select
                   defaultValue=""
                   name="slope"
-                  value={values.slope}
+                  value={newRecord.slope}
                   onBlur={handleBlur}
                   isInvalid={touched.slope && errors.slope}
                   onChange={handleChange}
@@ -498,45 +494,45 @@ function PrognosisPage() {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              {/* <Form.Group as={Col} xs={4} controlId="formGridEmail">
-                <Form.Label className="label">
-                  Major vessels (flourosopy)
-                </Form.Label>
-                <Form.Control
-                  type="number"
-                  placeholder="Enter major vessels"
-                  name="ca"
-                  value={values.ca}
-                  onBlur={handleBlur}
-                  isInvalid={touched.ca && errors.ca}
+              <Form.Group as={Col} controlId="formGridPassword">
+                <Form.Label className="label">Description</Form.Label>
+                <Form.Control as="textarea" rows={3} name="description" value={newRecord.description} 
+                  onChange={handleChange}/>
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formGridPassword">
+                <Form.Label className="label">Conclusion</Form.Label>
+                <Form.Check
+                  inline
+                  value='sick'
                   onChange={handleChange}
-                  required
+                  label="Sick"
+                  name="conclusion"
+                  type='radio'
+                  id={`inline-radio`}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {errors.ca}
-                </Form.Control.Feedback>
-              </Form.Group> */}
+                <Form.Check
+                  inline
+                  value='buff'
+                  onChange={handleChange}
+                  label="Buff"
+                  name="conclusion"
+                  type='radio'
+                  id={`inline-radio`}
+                />
+                <Form.Check
+                  inline
+                  value=''
+                  onChange={handleChange}
+                  label="Empty"
+                  name="conclusion"
+                  type='radio'
+                  id={`inline-radio`}
+                />
+              </Form.Group>
             </Row>
 
             <Row style={{ height: "7rem" }}>
-              {/* <Form.Group as={Col} controlId="formGridPassword">
-                <Form.Label className='label'>Thal</Form.Label>
-                <Form.Select defaultValue="" name="thal"
-                  value={values.thal}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  isInvalid={touched.thal && errors.thal}
-                  required>
-                  <option value={""}></option>
-                  <option value={"norm"}>Normal</option>
-                  <option value={"fix"}>Fixed defect</option>
-                  <option value={"rev"}>Reversable defect</option>
-                </Form.Select>
-                <Form.Control.Feedback type="invalid">
-                  {errors.thal}
-                </Form.Control.Feedback>
-              </Form.Group> */}
-
               <Form.Group
                 as={Col}
                 controlId="formGridPassword"
@@ -550,7 +546,7 @@ function PrognosisPage() {
                   className="submit-btn mb-3"
                   disabled={!formValid || isButtonClicked}
                 >
-                  {isButtonClicked ? "Submitting..." : "Submit"}
+                  {isButtonClicked ? "Editing..." : "Edit"}
                 </Button>
 
                 <Button
@@ -565,13 +561,17 @@ function PrognosisPage() {
                 </Button>
               </Form.Group>
 
-              <ResultModal calResult={calResult} showResultModal={showResultModal} setShowResultModal={setShowResultModal} />
+              <ResultModal
+                calResult={calResult}
+                showResultModal={showResultModal}
+                setShowResultModal={setShowResultModal}
+              />
             </Row>
           </Form>
         </div>
       </div>
     </>
   );
-}
+};
 
-export default PrognosisPage;
+export default EditRecord;

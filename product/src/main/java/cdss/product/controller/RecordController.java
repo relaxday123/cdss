@@ -24,6 +24,14 @@ public class RecordController {
     @Autowired
     RecordService recordService;
 
+    @GetMapping("/all")
+    @PreAuthorize("hasAuthority('STAFF')")
+    ResponseEntity<List<RecordDTO>> getAllRecord() {
+        List<RecordDTO> listDto = recordService.getAllRecord();
+
+        return new ResponseEntity<>(listDto, HttpStatus.OK);
+    }
+
     @GetMapping("")
     @PreAuthorize("hasAuthority('PATIENT')")
     ResponseEntity<List<RecordDTO>> getRecord(@RequestHeader(name = "Authorization") String stringToken) {
@@ -31,6 +39,14 @@ public class RecordController {
         List<RecordDTO> listDto = recordService.getRecord(token.sub);
 
         return new ResponseEntity<>(listDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('STAFF')")
+    ResponseEntity<RecordDTO> getRecordById(@PathVariable("id") Long recordId) {
+        RecordDTO recordDTO = recordService.getRecordById(recordId);
+
+        return new ResponseEntity<>(recordDTO, HttpStatus.OK);
     }
 
     @PostMapping("")
@@ -43,14 +59,14 @@ public class RecordController {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
-//    @PutMapping("")
-//    @PreAuthorize("hasAuthority('PATIENT')")
-//    ResponseEntity<RecordDTO> putRecord(@RequestHeader(name = "Authorization") String stringToken, @Valid @RequestBody RecordDTO record) {
-//        DecodedToken token = DecodedToken.getDecoded(stringToken);
-//        RecordDTO dto = recordService.putRecord(token.sub, record);
-//
-//        return new ResponseEntity<>(dto, HttpStatus.OK);
-//    }
+    @PutMapping("")
+    @PreAuthorize("hasAuthority('STAFF')")
+    ResponseEntity<RecordDTO> putRecord(@RequestHeader(name = "Authorization") String stringToken, @Valid @RequestBody RecordDTO record) {
+        DecodedToken token = DecodedToken.getDecoded(stringToken);
+        RecordDTO dto = recordService.putRecord(token.sub, record);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('PATIENT')")

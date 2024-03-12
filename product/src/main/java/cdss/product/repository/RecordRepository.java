@@ -11,7 +11,10 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 //    @Query(nativeQuery = true, value = "SELECT * FROM Record LIMIT 100")
     List<Record> findAll();
 
-//    @Query("FROM Record r where r.age < 50 order by r.age")
+    @Query(value = "SELECT * FROM records r INNER JOIN user u ON r.user_id = u.user_id WHERE r.user_id != 0", nativeQuery = true)
+    List<Record> findRecordsWithUserIdNotZeroAndFetchUser();
+
+    //    @Query("FROM Record r where r.age < 50 order by r.age")
     List<Record> findByAgeLessThanOrderByAgeDesc(String age);
 
     @Query(value = "SELECT * FROM records r WHERE r.user_id = ?1", nativeQuery = true)
