@@ -9,12 +9,18 @@ import cdss.product.model.User;
 import cdss.product.payload.request.SignupRequest;
 import cdss.product.payload.response.MessageResponse;
 import cdss.product.repository.UserRepository;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -32,7 +38,14 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public UserDTO createUser(UserDTO user) {
+    @Autowired
+    private JavaMailSender mailSender;
+
+    public UserDTO createUser(UserDTO user, String siteURL) {
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new UserException(UserException.USER_EXISTED);
+        }
+
         String strRoles;
         if (user.getRoles() != null) {
             strRoles = user.getRoles();
@@ -55,16 +68,61 @@ public class UserService {
                     throw new UserException(UserException.USER_TYPE_NOT_FOUND);
             }
 
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new UserException(UserException.USER_EXISTED);
-        }
-
         try {
+            String randomCode = RandomString.make(64);
+            entity.setVerificationCode(randomCode);
+            entity.setEnabled(false);
             User saveUser = userRepository.save(entity);
+            sendVerificationEmail(entity, siteURL);
+
             return userMapper.convertToDto(saveUser);
         }
         catch (Exception ex) {
             throw new UserException(UserException.USER_CREATE_DATA_FAIL);
+        }
+    }
+
+    private void sendVerificationEmail(User user, String siteURL)
+            throws MessagingException, UnsupportedEncodingException {
+        String toAddress = user.getEmail();
+        String fromAddress = "Admin@gmail.com";
+        String senderName = "Your company name";
+        String subject = "Please verify your registration";
+        String content = "Dear [[name]],<br>"
+                + "Please click the link below to verify your registration:<br>"
+                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
+                + "Thank you,<br>"
+                + "Your company name.";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+
+        content = content.replace("[[name]]", user.getName());
+        String verifyURL = siteURL + "/users/verify?code=" + user.getVerificationCode();
+
+        content = content.replace("[[URL]]", verifyURL);
+
+        helper.setText(content, true);
+
+        mailSender.send(message);
+
+    }
+
+    public boolean verify(String verificationCode) {
+        User user = userRepository.findByVerificationCode(verificationCode);
+
+        if (user == null || user.isEnabled()) {
+            return false;
+        } else {
+            user.setVerificationCode(null);
+            user.setEnabled(true);
+            userRepository.save(user);
+
+            return true;
         }
     }
 
