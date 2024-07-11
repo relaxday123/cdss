@@ -1,5 +1,6 @@
 package cdss.product.mapper;
 
+import cdss.product.dto.DiagnoseDTO;
 import cdss.product.dto.PreproDataDTO;
 import cdss.product.dto.RecordDTO;
 import cdss.product.exception.RecordException;
@@ -31,6 +32,16 @@ public class RecordMapper {
         }
         catch (Exception ex) {
             throw new RuntimeException("Failed to convert record");
+        }
+    }
+
+    public DiagnoseDTO convertToDiagnose(RecordDTO dto) {
+        try {
+            return modelMapper.map(dto, DiagnoseDTO.class);
+        }
+        catch (Exception ex) {
+            logger.warn(ex.getMessage());
+            throw new RecordException(RecordException.ERR_CONVERT_DTO_ENTITY_FAIL);
         }
     }
 

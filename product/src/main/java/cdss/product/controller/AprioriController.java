@@ -1,5 +1,6 @@
 package cdss.product.controller;
 
+import cdss.product.dto.DiagnoseDTO;
 import cdss.product.dto.RecordDTO;
 import cdss.product.model.Record;
 import cdss.product.model.Rule;
@@ -33,6 +34,12 @@ public class AprioriController {
     @PreAuthorize("hasAnyAuthority('PATIENT', 'STAFF')")
     ResponseEntity<List<Rule>> calculateRecord(@Valid @RequestBody RecordDTO record) {
         return new ResponseEntity<List<Rule>>(aprioriService.matchingRules(record), HttpStatus.OK);
+    }
+
+    @GetMapping("/diagnose/{id}")
+    @PreAuthorize("hasAuthority('PATIENT')")
+    ResponseEntity<?> diagnoseRecord(@PathVariable("id") Long id) {
+        return new ResponseEntity<DiagnoseDTO>(aprioriService.diagnoseRecord(id), HttpStatus.OK);
     }
 
     @PostMapping

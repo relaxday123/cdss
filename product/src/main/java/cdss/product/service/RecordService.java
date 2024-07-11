@@ -10,6 +10,8 @@ import cdss.product.model.Record;
 import cdss.product.repository.RecordRepository;
 import cdss.product.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@EnableCaching
 public class RecordService {
 
     @Autowired
@@ -33,7 +36,7 @@ public class RecordService {
     @Autowired
     private RecordMapper recordMapper;
 
-
+//    @Cacheable("records")
     public List<RecordDTO> getAllRecord() {
         List<Record> records = recordRepository.findRecordsWithUserIdNotZeroAndFetchUser();
 
@@ -44,7 +47,7 @@ public class RecordService {
 
         return recordDTOList;
     }
-
+  
     public List<RecordDTO> getRecord(String username) {
         Optional<User> user = userRepository.findByUsername(username);
 
