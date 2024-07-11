@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3e4a87a2-78d2-4a08-aa42-f561fea2ec12" name="Changes" comment="" />
+    <list default="true" id="3e4a87a2-78d2-4a08-aa42-f561fea2ec12" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fe/fe/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/fe/fe/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/product/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/java/cdss/product/config/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/cdss/product/config/AppConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/java/cdss/product/config/ControllerExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/cdss/product/config/ControllerExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/java/cdss/product/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/cdss/product/config/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/java/cdss/product/controller/RecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/cdss/product/controller/RecordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/java/cdss/product/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/cdss/product/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/java/cdss/product/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/cdss/product/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/java/cdss/product/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/cdss/product/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/java/cdss/product/service/RecordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/cdss/product/service/RecordService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/java/cdss/product/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/cdss/product/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/resources/application-dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/resources/application-dev.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/test/java/cdss/product/ProductApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/test/java/cdss/product/ProductApplicationTests.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="2Sk18hHIvZKj2Zpe5WfbjvsmGrN" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/product" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/hoc dai/doan/cdss/product"
+  }
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -27,6 +47,7 @@
       <option name="presentableId" value="Default" />
       <updated>1689675606765</updated>
       <workItem from="1689675608048" duration="8000" />
+      <workItem from="1716277467751" duration="8000" />
     </task>
     <servers />
   </component>

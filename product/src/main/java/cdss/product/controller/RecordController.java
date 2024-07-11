@@ -42,7 +42,7 @@ public class RecordController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('STAFF')")
+    @PreAuthorize("hasAuthority('PATIENT')")
     ResponseEntity<RecordDTO> getRecordById(@PathVariable("id") Long recordId) {
         RecordDTO recordDTO = recordService.getRecordById(recordId);
 

@@ -64,6 +64,10 @@ public class RecordService {
     public RecordDTO getRecordById(Long id) {
         Optional<Record> records = recordRepository.findById(id);
 
+        if(records.isEmpty()) {
+            throw new RecordException(RecordException.RECORD_NOT_FOUND);
+        }
+
         return recordMapper.convertToDto(records.get());
     }
 

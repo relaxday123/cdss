@@ -1,9 +1,6 @@
 package cdss.product.config;
 
-import cdss.product.exception.ApiError;
-import cdss.product.exception.ErrorMessage;
-import cdss.product.exception.NotFoundException;
-import cdss.product.exception.UserException;
+import cdss.product.exception.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -90,33 +87,21 @@ public class ControllerExceptionHandler {
 		return message;
 	}
 
+	@ExceptionHandler(RecordException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public ErrorMessage recordNotFoundException(RecordException ex, WebRequest request) {
+		ErrorMessage message = new ErrorMessage(
+				HttpStatus.NOT_FOUND.value(),
+				new Date(),
+				ex.getCodeResponse().getMessage(),
+				request.getDescription(false));
+
+		return message;
+	}
+
 	@ExceptionHandler(IllegalArgumentException.class)
-	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public ErrorMessage illegalArgumentException(IllegalArgumentException ex, WebRequest request) {
-		ErrorMessage message = new ErrorMessage(
-				HttpStatus.NOT_FOUND.value(),
-				new Date(),
-				ex.getMessage(),
-				request.getDescription(false));
-
-		return message;
-	}
-
-	@ExceptionHandler(ExpiredJwtException.class)
-	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public ErrorMessage expiredJwtException(ExpiredJwtException ex, WebRequest request) {
-		ErrorMessage message = new ErrorMessage(
-				HttpStatus.NOT_FOUND.value(),
-				new Date(),
-				ex.getMessage(),
-				request.getDescription(false));
-
-		return message;
-	}
-
-	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	public ErrorMessage globalExceptionHandler(Exception ex, WebRequest request) {
+	public ErrorMessage illegalArgumentException(IllegalArgumentException ex, WebRequest request) {
 		ErrorMessage message = new ErrorMessage(
 				HttpStatus.INTERNAL_SERVER_ERROR.value(),
 				new Date(),
@@ -125,4 +110,28 @@ public class ControllerExceptionHandler {
 
 		return message;
 	}
+
+	@ExceptionHandler(ExpiredJwtException.class)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	public ErrorMessage expiredJwtException(ExpiredJwtException ex, WebRequest request) {
+		ErrorMessage message = new ErrorMessage(
+				HttpStatus.BAD_REQUEST.value(),
+				new Date(),
+				ex.getMessage(),
+				request.getDescription(false));
+
+		return message;
+	}
+
+//	@ExceptionHandler(Exception.class)
+//	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+//	public ErrorMessage globalExceptionHandler(Exception ex, WebRequest request) {
+//		ErrorMessage message = new ErrorMessage(
+//				HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//				new Date(),
+//				ex.getMessage(),
+//				request.getDescription(false));
+//
+//		return message;
+//	}
 }
